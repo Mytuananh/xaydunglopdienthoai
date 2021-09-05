@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>Điện thoại của Định</td>
+        <td>Điện thoại của Trường</td>
+    </tr>
+    <tr>
+        <td>
+            <input type="text" id="messD">
+            <button onclick="guitinchoTruong()">Gửi tin nhắn</button>
+        </td>
+        <td>
+            <input type="text" id="messT">
+            <button>Gửi tin nhắn</button>
+        </td>
+    </tr>
+    <tr>
+        <td id="inboxD">Inbox Của Định</td>
+        <td id="inboxT">Inbox Của Trường</td>
+    </tr>
+</table>
+<script>
+    class Mobile {
+        constructor(_name) {
+            this.name = _name;
+            this.battery = 100;
+            this.draft = "";
+            this.inbox = [];
+            this.outbox = [];
+            this.status = true;
+        }
+        checkstatus() {
+            return this.status;
+        }
+        Onoff() {
+            this.status = !this.status;
+        }
+        writing(text) {
+            this.draft = text;
+            this.battery--;
+        }
+        sendMassage(phone) {
+            phone.inbox.push(this.draft);
+            this.outbox.push(this.draft);
+            this.draft = "";
+            this.battery--;
+        }
+        getInbox() {
+            this.battery--;
+            return this.inbox;
+        }
+        getOutbox() {
+            if (this.status) {
+                this.battery--;
+                return this.outbox;
+            }
+        }
+    }
+    let dtcuatruong = new Mobile("Truong")
+    let dtcuadinh = new Mobile("Dinh")
+    function guitinchoTruong() {
+        let  mess = document.getElementById("messD").value;
+        dtcuatruong.writing(mess);
+        dtcuadinh.sendMassage(dtcuatruong)
+        let inboxTruong = dtcuatruong.inbox.join("-")
+        document.getElementById("inboxT").innerText = inboxTruong;
+    }
+</script>
+</body>
+</html>
